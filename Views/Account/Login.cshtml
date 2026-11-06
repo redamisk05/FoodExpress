@@ -1,0 +1,27 @@
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="login-box">
+    <h2>FoodExpress</h2>
+    <h3>Login to Your Account</h3>
+
+    <form>
+        <input type="email" placeholder="Email" required />
+
+        <input type="password" placeholder="Password" required />
+
+        <button type="submit">Login</button>
+    </form>
+
+    <p>
+        <a asp-controller="Account" asp-action="ForgotPassword">
+            Forgot Password?
+        </a>
+    </p>
+
+    <p>
+        Don't have an account?
+        <a asp-controller="Account" asp-action="Register">Register</a>
+    </p>
+</div>
