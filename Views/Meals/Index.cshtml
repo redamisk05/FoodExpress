@@ -1,0 +1,76 @@
+@{
+    ViewData["Title"] = "Menu";
+}
+
+<div class="menu-page">
+    <h1>Our Menu</h1>
+    <p>Choose your favorite meal!</p>
+
+
+<div class="menu-categories">
+    <button onclick="filterMeals('all')">All Meals</button>
+    <button onclick="filterMeals('burgers')">Burgers</button>
+    <button onclick="filterMeals('pizzas')">Pizzas</button>
+    <button onclick="filterMeals('chicken')">Chicken</button>
+    <button onclick="filterMeals('pasta')">Pasta</button>
+</div>
+
+
+    <div class="menu-list">
+
+        <div class="menu-card" data-category="burgers">
+        <a asp-controller="Meals" asp-action="Details" asp-route-id="1">
+            <img src="~/images/burger.png" alt="Classic Burger" />
+        </a>
+            <h3>Classic Burger</h3>
+            <p>Beef patty, cheese and lettuce</p>
+            <h4>$8.99</h4>
+            <button>Add to Cart</button>
+        </div>
+
+        <div class="menu-card" data-category="pizzas">
+        <a asp-controller="Meals" asp-action="Details" asp-route-id="2">
+            <img src="~/images/Pizza.png" alt="Pepperoni Pizza" />
+        </a>
+            <h3>Pepperoni Pizza</h3>
+            <p>Pizza with cheese and pepperoni</p>
+            <h4>$12.99</h4>
+            <button>Add to Cart</button>
+        </div>
+
+        <div class="menu-card" data-category="chicken">
+        <a asp-controller="Meals" asp-action="Details" asp-route-id="3">
+            <img src="~/images/chicken.png" alt="Grilled Chicken" />
+        </a>
+            <h3>Grilled Chicken</h3>
+            <p>Grilled chicken with vegetables</p>
+            <h4>$11.99</h4>
+            <button>Add to Cart</button>
+        </div>
+
+        <div class="menu-card" data-category="pasta">
+        <a asp-controller="Meals" asp-action="Details" asp-route-id="4">
+            <img src="~/images/pasta.png" alt="Pasta Bolognese" />
+        </a>
+            <h3>Pasta Bolognese</h3>
+            <p>Pasta with tomato and meat sauce</p>
+            <h4>$10.99</h4>
+            <button>Add to Cart</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function filterMeals(category) {
+        let meals = document.querySelectorAll(".menu-card");
+
+        meals.forEach(function(meal) {
+            if (category === "all" || meal.dataset.category === category) {
+                meal.style.display = "block";
+            } else {
+                meal.style.display = "none";
+            }
+        });
+    }
+</script>
