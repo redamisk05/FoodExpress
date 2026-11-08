@@ -23,8 +23,8 @@
             <button type="button" onclick="changeQuantity(1)">+</button>
         </div>
 
-        <button class="add-cart-btn" type="button">
-            Add to Cart
+        <button class="add-cart-btn" type="button" onclick="addToCart()">
+             Add to Cart
         </button>
 
         <p>
@@ -35,6 +35,7 @@
 
     </div>
 </div>
+
 
 <script>
     let quantity = 1;
@@ -47,5 +48,29 @@
         }
 
         document.getElementById("quantity").textContent = quantity;
+    }
+
+    function addToCart() {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        let meal = {
+            id: @Context.Request.RouteValues["id"],
+            name: "@ViewBag.Name",
+            price: @ViewBag.Price.ToString(System.Globalization.CultureInfo.InvariantCulture),
+            image: "@ViewBag.Image",
+            quantity: quantity
+        };
+
+        let existingMeal = cart.find(item => item.id === meal.id);
+
+        if (existingMeal) {
+            existingMeal.quantity += quantity;
+        } else {
+            cart.push(meal);
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        alert("Meal added to cart!");
     }
 </script>

@@ -1,0 +1,100 @@
+
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+
+<div class="cart-page">
+
+    <h1>Shopping Cart</h1>
+
+    <div id="cart-items"></div>
+
+    <div class="cart-summary">
+        <h2>Order Summary</h2>
+
+        <p>Subtotal: $<span id="subtotal">0.00</span></p>
+        <p>Total: $<span id="total">0.00</span></p>
+
+        <button class="checkout-btn" type="button">
+            Proceed to Checkout
+        </button>
+    </div>
+
+</div>
+
+<script>
+    function displayCart() {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        let cartItems = document.getElementById("cart-items");
+        let total = 0;
+
+        cartItems.innerHTML = "";
+
+        if (cart.length === 0) {
+            cartItems.innerHTML = "<p>Your cart is empty.</p>";
+        }
+
+        cart.forEach(function(meal) {
+            let mealTotal = meal.price * meal.quantity;
+            total += mealTotal;
+
+            cartItems.innerHTML += `
+                <div class="cart-item">
+
+                    <img src="/images/${meal.image}" alt="${meal.name}">
+
+                    <div>
+                        <h3>${meal.name}</h3>
+                        <p>Price: $${meal.price.toFixed(2)}</p>
+
+                        <div class="cart-quantity">
+                            <button onclick="changeCartQuantity(${meal.id}, -1)">-</button>
+                            <span>${meal.quantity}</span>
+                            <button onclick="changeCartQuantity(${meal.id}, 1)">+</button>
+                        </div>
+                    </div>
+
+                    <button class="remove-btn"
+                            onclick="removeFromCart(${meal.id})">
+                        Remove
+                    </button>
+
+                </div>
+            `;
+        });
+
+        document.getElementById("subtotal").textContent = total.toFixed(2);
+        document.getElementById("total").textContent = total.toFixed(2);
+    }
+
+    function changeCartQuantity(id, number) {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        let meal = cart.find(item => item.id === id);
+
+        if (meal) {
+            meal.quantity += number;
+
+            if (meal.quantity < 1) {
+                meal.quantity = 1;
+            }
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        displayCart();
+    }
+
+    function removeFromCart(id) {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        cart = cart.filter(item => item.id !== id);
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        displayCart();
+    }
+
+    displayCart();
+</script>
